@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Web Page - Todo List & Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        input {
+            width: calc(100% - 10px);
+        }
+        button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #5568d3;
+        }
+        .todo-item {
+            background: #f9f9f9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+        .todo-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .calculator {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .calculator-display {
+            background: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            font-size: 2em;
+            text-align: right;
+            margin-bottom: 20px;
+            min-height: 60px;
+            font-family: monospace;
+        }
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .calculator-buttons button {
+            padding: 20px;
+            font-size: 1.2em;
+        }
+        .calculator-buttons button.operator {
+            background-color: #ff9800;
+        }
+        .calculator-buttons button.operator:hover {
+            background-color: #f57c00;
+        }
+        .calculator-buttons button.clear {
+            background-color: #f44336;
+        }
+        .calculator-buttons button.clear:hover {
+            background-color: #d32f2f;
+        }
+        .calculator-buttons button.equals {
+            background-color: #4caf50;
+            grid-column: span 2;
+        }
+        .calculator-buttons button.equals:hover {
+            background-color: #388e3c;
+        }
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script>
+        // Todo List
+        let todos = [];
+        let todoId = 0;
+        
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                todos.push({ id: todoId++, text: text, completed: false });
+                input.value = '';
+                renderTodos();
+            }
+        }
+        
+        function toggleTodo(id) {
+            const todo = todos.find(t => t.id === id);
+            if (todo) {
+                todo.completed = !todo.completed;
+                renderTodos();
+            }
+        }
+        
+        function deleteTodo(id) {
+            todos = todos.filter(t => t.id !== id);
+            renderTodos();
+        }
+        
+        function renderTodos() {
+            const list = document.getElementById('todoList');
+            list.innerHTML = '';
+            
+            todos.forEach(todo => {
+                const item = document.createElement('div');
+                item.className = 'todo-item' + (todo.completed ? ' completed' : '');
+                item.innerHTML = `
+                    <span onclick="toggleTodo(${todo.id})" style="cursor: pointer; flex: 1;">${todo.text}</span>
+                    <button onclick="deleteTodo(${todo.id})" style="background: #f44336;">Delete</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+        
+        // Calculator
+        let display = '0';
+        let currentValue = 0;
+        let operator = null;
+        let waitingForOperand = false;
+        
+        function updateDisplay() {
+            document.getElementById('calcDisplay').textContent = display;
+        }
+        
+        function inputNumber(num) {
+            if (waitingForOperand) {
+                display = num;
+                waitingForOperand = false;
+            } else {
+                display = display === '0' ? num : display + num;
+            }
+            updateDisplay();
+        }
+        
+        function inputOperator(nextOperator) {
+            const inputValue = parseFloat(display);
+            
+            if (currentValue === 0) {
+                currentValue = inputValue;
+            } else if (operator) {
+                const result = calculate();
+                display = String(result);
+                currentValue = result;
+                updateDisplay();
+            }
+            
+            waitingForOperand = true;
+            operator = nextOperator;
+        }
+        
+        function calculate() {
+            const inputValue = parseFloat(display);
+            
+            if (operator === '+') {
+                return currentValue + inputValue;
+            } else if (operator === '-') {
+                return currentValue - inputValue;
+            } else if (operator === '*') {
+                return currentValue * inputValue;
+            } else if (operator === '/') {
+                return currentValue / inputValue;
+            }
+            
+            return inputValue;
+        }
+        
+        function performCalculation() {
+            if (operator) {
+                const result = calculate();
+                display = String(result);
+                currentValue = 0;
+                operator = null;
+                waitingForOperand = true;
+                updateDisplay();
+            }
+        }
+        
+        function clearCalculator() {
+            display = '0';
+            currentValue = 0;
+            operator = null;
+            waitingForOperand = false;
+            updateDisplay();
+        }
+        
+        function inputDecimal() {
+            if (waitingForOperand) {
+                display = '0.';
+                waitingForOperand = false;
+            } else if (display.indexOf('.') === -1) {
+                display += '.';
+            }
+            updateDisplay();
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDisplay();
+        });
+    </script>
+</head>
+<body>
+    <h1 style="color: white; text-align: center; margin-bottom: 30px;">Dynamic Web Page</h1>
+    
+    <div class="container">
+        <!-- Todo List -->
+        <div class="section">
+            <h2>Todo List</h2>
+            <div>
+                <input type="text" id="todoInput" placeholder="Enter a new task" onkeypress="if(event.key==='Enter') addTodo()">
+                <button onclick="addTodo()">Add Todo</button>
+            </div>
+            <div id="todoList" class="todo-list"></div>
+        </div>
+        
+        <!-- Calculator -->
+        <div class="section">
+            <h2>Calculator</h2>
+            <div class="calculator">
+                <div class="calculator-display" id="calcDisplay">0</div>
+                <div class="calculator-buttons">
+                    <button class="clear" onclick="clearCalculator()">C</button>
+                    <button class="operator" onclick="inputOperator('/')">/</button>
+                    <button class="operator" onclick="inputOperator('*')">*</button>
+                    <button onclick="inputNumber('7')">7</button>
+                    <button onclick="inputNumber('8')">8</button>
+                    <button onclick="inputNumber('9')">9</button>
+                    <button class="operator" onclick="inputOperator('-')">-</button>
+                    <button onclick="inputNumber('4')">4</button>
+                    <button onclick="inputNumber('5')">5</button>
+                    <button onclick="inputNumber('6')">6</button>
+                    <button class="operator" onclick="inputOperator('+')">+</button>
+                    <button onclick="inputNumber('1')">1</button>
+                    <button onclick="inputNumber('2')">2</button>
+                    <button onclick="inputNumber('3')">3</button>
+                    <button onclick="inputDecimal()">.</button>
+                    <button onclick="inputNumber('0')">0</button>
+                    <button class="equals" onclick="performCalculation()">=</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

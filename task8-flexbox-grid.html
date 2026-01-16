@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox, Grid, and Responsive Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        
+        .section {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        /* Flexbox Example */
+        .flexbox-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            min-height: 200px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .flex-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            flex: 1 1 200px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .flex-item:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* Grid Example */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .grid-item {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .grid-item:hover {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .animated-box {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+            margin: 20px 0;
+        }
+        
+        .slide-animation {
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            animation: slideIn 1s ease-out;
+            margin: 20px 0;
+        }
+        
+        .pulse-animation {
+            background: #ff9800;
+            color: white;
+            padding: 20px;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            animation: pulse 2s infinite;
+        }
+        
+        /* Transitions */
+        .transition-box {
+            background: #2196f3;
+            color: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        
+        .transition-box:hover {
+            background: #1976d2;
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Responsive Design with Media Queries */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .flexbox-container {
+                flex-direction: column;
+            }
+            
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .grid-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSS Flexbox, Grid, and Responsive Design</h1>
+        
+        <!-- Flexbox Section -->
+        <div class="section">
+            <h2>1. Flexbox Layout</h2>
+            <p>Flexbox is used for one-dimensional layouts. Items automatically adjust to available space.</p>
+            <div class="flexbox-container">
+                <div class="flex-item">Item 1</div>
+                <div class="flex-item">Item 2</div>
+                <div class="flex-item">Item 3</div>
+                <div class="flex-item">Item 4</div>
+            </div>
+        </div>
+        
+        <!-- Grid Section -->
+        <div class="section">
+            <h2>2. CSS Grid Layout</h2>
+            <p>Grid is used for two-dimensional layouts. Create complex layouts with rows and columns.</p>
+            <div class="grid-container">
+                <div class="grid-item">Grid Item 1</div>
+                <div class="grid-item">Grid Item 2</div>
+                <div class="grid-item">Grid Item 3</div>
+                <div class="grid-item">Grid Item 4</div>
+                <div class="grid-item">Grid Item 5</div>
+                <div class="grid-item">Grid Item 6</div>
+            </div>
+        </div>
+        
+        <!-- Hover Effects -->
+        <div class="section">
+            <h2>3. Hover Effects</h2>
+            <p>Hover over the items above to see hover effects with transitions.</p>
+        </div>
+        
+        <!-- Transitions -->
+        <div class="section">
+            <h2>4. CSS Transitions</h2>
+            <p>Transitions create smooth animations between states. Hover over the box below:</p>
+            <div class="transition-box">
+                Hover me for transition effect!
+            </div>
+        </div>
+        
+        <!-- Animations -->
+        <div class="section">
+            <h2>5. CSS Animations</h2>
+            
+            <div class="animated-box">
+                Fade In Animation
+            </div>
+            
+            <div class="slide-animation">
+                Slide In Animation
+            </div>
+            
+            <div class="pulse-animation">
+                Pulse
+            </div>
+        </div>
+        
+        <!-- Responsive Design -->
+        <div class="section">
+            <h2>6. Responsive Design with Media Queries</h2>
+            <p>This page is responsive! Try resizing your browser window to see how the layout adapts:</p>
+            <ul style="line-height: 2; margin-top: 15px;">
+                <li><strong>Desktop (>1200px):</strong> 4-column grid layout</li>
+                <li><strong>Tablet (768px-1200px):</strong> 2-3 column grid layout</li>
+                <li><strong>Mobile (<768px):</strong> Single column, stacked layout</li>
+                <li><strong>Small Mobile (<480px):</strong> Reduced padding and font sizes</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

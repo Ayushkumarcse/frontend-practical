@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Arrays, Objects & CSS Positioning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        
+        /* Positioning Examples */
+        .positioning-container {
+            position: relative;
+            height: 400px;
+            background: #e3f2fd;
+            border: 3px solid #2196f3;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        
+        .static-box {
+            position: static;
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+        
+        .relative-box {
+            position: relative;
+            background: #ff9800;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 5px;
+            top: 20px;
+            left: 30px;
+        }
+        
+        .absolute-box {
+            position: absolute;
+            background: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            top: 50px;
+            right: 50px;
+        }
+        
+        .fixed-box {
+            position: fixed;
+            background: #9c27b0;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .sticky-box {
+            position: sticky;
+            background: #00bcd4;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            top: 10px;
+            margin: 10px 0;
+        }
+        
+        button {
+            background-color: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #5568d3;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        .array-display, .object-display {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+            font-family: monospace;
+        }
+    </style>
+    <script>
+        // Arrays and Objects
+        let students = [
+            { id: 1, name: 'John Doe', age: 20, grade: 'A' },
+            { id: 2, name: 'Jane Smith', age: 21, grade: 'B' },
+            { id: 3, name: 'Bob Johnson', age: 19, grade: 'A' }
+        ];
+        
+        function displayArray() {
+            const display = document.getElementById('arrayDisplay');
+            display.textContent = JSON.stringify(students, null, 2);
+        }
+        
+        function addStudent() {
+            const name = document.getElementById('studentName').value;
+            const age = parseInt(document.getElementById('studentAge').value);
+            const grade = document.getElementById('studentGrade').value;
+            
+            if (name && age && grade) {
+                const newId = students.length > 0 ? Math.max(...students.map(s => s.id)) + 1 : 1;
+                students.push({ id: newId, name: name, age: age, grade: grade });
+                displayArray();
+                document.getElementById('studentName').value = '';
+                document.getElementById('studentAge').value = '';
+                document.getElementById('studentGrade').value = '';
+            }
+        }
+        
+        function deleteStudent() {
+            const id = parseInt(document.getElementById('deleteId').value);
+            students = students.filter(s => s.id !== id);
+            displayArray();
+            document.getElementById('deleteId').value = '';
+        }
+        
+        function searchStudent() {
+            const searchTerm = document.getElementById('searchTerm').value.toLowerCase();
+            const results = students.filter(s => 
+                s.name.toLowerCase().includes(searchTerm) || 
+                s.grade.toLowerCase().includes(searchTerm)
+            );
+            document.getElementById('searchResults').textContent = JSON.stringify(results, null, 2);
+        }
+        
+        function updateStudent() {
+            const id = parseInt(document.getElementById('updateId').value);
+            const name = document.getElementById('updateName').value;
+            const age = parseInt(document.getElementById('updateAge').value);
+            const grade = document.getElementById('updateGrade').value;
+            
+            const student = students.find(s => s.id === id);
+            if (student) {
+                if (name) student.name = name;
+                if (age) student.age = age;
+                if (grade) student.grade = grade;
+                displayArray();
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayArray();
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>JavaScript Arrays, Objects & CSS Positioning</h1>
+        
+        <!-- CSS Positioning -->
+        <div class="section">
+            <h2>CSS Positioning Examples</h2>
+            <p>Different CSS positioning values and their effects:</p>
+            
+            <div class="positioning-container">
+                <div class="static-box">Static (default) - Normal flow</div>
+                <div class="relative-box">Relative - Offset from normal position</div>
+                <div class="absolute-box">Absolute - Relative to parent container</div>
+                <div class="sticky-box">Sticky - Sticks when scrolling</div>
+            </div>
+            
+            <div class="fixed-box">Fixed - Relative to viewport (always visible)</div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #fff3e0; border-radius: 5px;">
+                <h3>Positioning Types:</h3>
+                <ul style="line-height: 2; margin-top: 10px;">
+                    <li><strong>Static:</strong> Default positioning, follows normal document flow</li>
+                    <li><strong>Relative:</strong> Positioned relative to its normal position</li>
+                    <li><strong>Absolute:</strong> Positioned relative to nearest positioned ancestor</li>
+                    <li><strong>Fixed:</strong> Positioned relative to viewport, stays in place when scrolling</li>
+                    <li><strong>Sticky:</strong> Acts like relative until scrolled, then becomes fixed</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- JavaScript Arrays and Objects -->
+        <div class="section">
+            <h2>JavaScript Arrays and Objects Operations</h2>
+            
+            <h3>Current Students Array:</h3>
+            <div id="arrayDisplay" class="array-display"></div>
+            
+            <h3>Add Student:</h3>
+            <div>
+                <input type="text" id="studentName" placeholder="Name">
+                <input type="number" id="studentAge" placeholder="Age">
+                <input type="text" id="studentGrade" placeholder="Grade">
+                <button onclick="addStudent()">Add</button>
+            </div>
+            
+            <h3>Delete Student:</h3>
+            <div>
+                <input type="number" id="deleteId" placeholder="Student ID">
+                <button onclick="deleteStudent()">Delete</button>
+            </div>
+            
+            <h3>Search Student:</h3>
+            <div>
+                <input type="text" id="searchTerm" placeholder="Search by name or grade">
+                <button onclick="searchStudent()">Search</button>
+            </div>
+            <div id="searchResults" class="array-display" style="min-height: 50px;"></div>
+            
+            <h3>Update Student:</h3>
+            <div>
+                <input type="number" id="updateId" placeholder="Student ID">
+                <input type="text" id="updateName" placeholder="New Name (optional)">
+                <input type="number" id="updateAge" placeholder="New Age (optional)">
+                <input type="text" id="updateGrade" placeholder="New Grade (optional)">
+                <button onclick="updateStudent()">Update</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

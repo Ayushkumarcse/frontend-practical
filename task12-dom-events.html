@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Manipulation and Events</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #5568d3;
+        }
+        .element-list {
+            margin: 20px 0;
+        }
+        .list-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .event-demo {
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            min-height: 100px;
+            border: 2px solid #ff9800;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .event-demo:hover {
+            background: #ffe0b2;
+            transform: scale(1.02);
+        }
+        .event-log {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            background: white;
+            border-radius: 3px;
+        }
+    </style>
+    <script>
+        let itemCounter = 0;
+        
+        // Add Element
+        function addElement() {
+            itemCounter++;
+            const list = document.getElementById('elementList');
+            const newItem = document.createElement('div');
+            newItem.className = 'list-item';
+            newItem.id = 'item-' + itemCounter;
+            newItem.innerHTML = `
+                <span>Item ${itemCounter}</span>
+                <button onclick="removeElement('item-${itemCounter}')">Remove</button>
+            `;
+            list.appendChild(newItem);
+            logEvent('Added element: Item ' + itemCounter);
+        }
+        
+        // Remove Element
+        function removeElement(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.remove();
+                logEvent('Removed element: ' + id);
+            }
+        }
+        
+        // Modify Element
+        function modifyElement() {
+            const text = document.getElementById('modifyText').value;
+            const target = document.getElementById('modifiableElement');
+            if (text.trim()) {
+                target.textContent = text;
+                target.style.color = '#667eea';
+                logEvent('Modified element text to: ' + text);
+            }
+        }
+        
+        // Mouse Events
+        function setupMouseEvents() {
+            const demo = document.getElementById('mouseDemo');
+            
+            demo.addEventListener('click', function() {
+                this.style.backgroundColor = '#c8e6c9';
+                logEvent('Mouse Click Event');
+            });
+            
+            demo.addEventListener('mouseenter', function() {
+                this.style.borderColor = '#4caf50';
+                logEvent('Mouse Enter Event');
+            });
+            
+            demo.addEventListener('mouseleave', function() {
+                this.style.borderColor = '#ff9800';
+                logEvent('Mouse Leave Event');
+            });
+            
+            demo.addEventListener('mousedown', function() {
+                this.style.transform = 'scale(0.95)';
+                logEvent('Mouse Down Event');
+            });
+            
+            demo.addEventListener('mouseup', function() {
+                this.style.transform = 'scale(1)';
+                logEvent('Mouse Up Event');
+            });
+        }
+        
+        // Keyboard Events
+        function setupKeyboardEvents() {
+            const input = document.getElementById('keyboardInput');
+            const output = document.getElementById('keyboardOutput');
+            
+            input.addEventListener('keypress', function(e) {
+                output.textContent = 'Key Pressed: ' + e.key + ' (Code: ' + e.keyCode + ')';
+                logEvent('Key Press Event: ' + e.key);
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    output.textContent = 'Enter key pressed!';
+                    logEvent('Enter Key Pressed');
+                }
+            });
+        }
+        
+        // Event Logging
+        function logEvent(message) {
+            const log = document.getElementById('eventLog');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setupMouseEvents();
+            setupKeyboardEvents();
+            logEvent('Page loaded - Events initialized');
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>DOM Manipulation and Event Handling</h1>
+        
+        <!-- Add/Remove Elements -->
+        <div class="section">
+            <h2>1. Add, Remove, and Modify HTML Elements</h2>
+            <button onclick="addElement()">Add Element</button>
+            <div id="elementList" class="element-list"></div>
+        </div>
+        
+        <!-- Modify Element -->
+        <div class="section">
+            <h2>2. Modify Element Content</h2>
+            <div class="input-group">
+                <input type="text" id="modifyText" placeholder="Enter new text">
+                <button onclick="modifyElement()">Modify Element</button>
+            </div>
+            <div id="modifiableElement" style="padding: 15px; background: #e3f2fd; border-radius: 5px; margin-top: 10px;">
+                This text can be modified
+            </div>
+        </div>
+        
+        <!-- Mouse Events -->
+        <div class="section">
+            <h2>3. Mouse Events (Click, Hover)</h2>
+            <p>Interact with the box below to see mouse events:</p>
+            <div id="mouseDemo" class="event-demo">
+                Click me, hover over me, or press and hold!
+            </div>
+        </div>
+        
+        <!-- Keyboard Events -->
+        <div class="section">
+            <h2>4. Keyboard Events (Keypress)</h2>
+            <p>Type in the input field below:</p>
+            <input type="text" id="keyboardInput" placeholder="Type here to see keyboard events">
+            <div id="keyboardOutput" style="margin-top: 10px; padding: 10px; background: #fff3e0; border-radius: 5px;">
+                Keyboard events will appear here
+            </div>
+        </div>
+        
+        <!-- Event Log -->
+        <div class="section">
+            <h2>5. Event Log</h2>
+            <p>All events are logged below:</p>
+            <div id="eventLog" class="event-log"></div>
+            <button onclick="document.getElementById('eventLog').innerHTML = ''">Clear Log</button>
+        </div>
+    </div>
+</body>
+</html>
