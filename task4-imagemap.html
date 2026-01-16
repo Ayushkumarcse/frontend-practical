@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Map with Hotspots</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .image-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 3px solid #667eea;
+            border-radius: 8px;
+        }
+        .info-panel {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            display: none;
+        }
+        .info-panel.active {
+            display: block;
+        }
+        .info-panel h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .info-panel p {
+            line-height: 1.8;
+            color: #555;
+        }
+    </style>
+    <script>
+        function showInfo(region) {
+            // Hide all info panels
+            const panels = document.querySelectorAll('.info-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+            
+            // Show the selected info panel
+            const selectedPanel = document.getElementById(region + '-info');
+            if (selectedPanel) {
+                selectedPanel.classList.add('active');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Map with Hotspots</h1>
+        <p style="text-align: center; margin-bottom: 20px;">Click on different regions of the image to see information</p>
+        
+        <div class="image-container">
+            <!-- Creating a simple image map using SVG overlay for better compatibility -->
+            <div style="position: relative; display: inline-block;">
+                <img src="https://via.placeholder.com/800x400/667eea/ffffff?text=World+Map+with+Hotspots" 
+                     alt="World Map" 
+                     usemap="#worldmap"
+                     style="display: block;">
+                
+                <!-- SVG overlay for hotspots -->
+                <svg width="800" height="400" style="position: absolute; top: 0; left: 0; pointer-events: none;">
+                    <!-- North America hotspot -->
+                    <rect x="100" y="100" width="200" height="150" 
+                          fill="rgba(102, 126, 234, 0.3)" 
+                          stroke="#667eea" 
+                          stroke-width="2"
+                          style="pointer-events: all; cursor: pointer;"
+                          onclick="showInfo('northamerica')"
+                          onmouseover="this.style.fill='rgba(102, 126, 234, 0.5)'"
+                          onmouseout="this.style.fill='rgba(102, 126, 234, 0.3)'"/>
+                    
+                    <!-- Europe hotspot -->
+                    <rect x="350" y="80" width="150" height="120" 
+                          fill="rgba(102, 126, 234, 0.3)" 
+                          stroke="#667eea" 
+                          stroke-width="2"
+                          style="pointer-events: all; cursor: pointer;"
+                          onclick="showInfo('europe')"
+                          onmouseover="this.style.fill='rgba(102, 126, 234, 0.5)'"
+                          onmouseout="this.style.fill='rgba(102, 126, 234, 0.3)'"/>
+                    
+                    <!-- Asia hotspot -->
+                    <rect x="500" y="100" width="200" height="150" 
+                          fill="rgba(102, 126, 234, 0.3)" 
+                          stroke="#667eea" 
+                          stroke-width="2"
+                          style="pointer-events: all; cursor: pointer;"
+                          onclick="showInfo('asia')"
+                          onmouseover="this.style.fill='rgba(102, 126, 234, 0.5)'"
+                          onmouseout="this.style.fill='rgba(102, 126, 234, 0.3)'"/>
+                </svg>
+            </div>
+            
+            <!-- HTML Image Map (alternative method) -->
+            <map name="worldmap">
+                <area shape="rect" coords="100,100,300,250" 
+                      href="javascript:void(0)" 
+                      onclick="showInfo('northamerica')"
+                      alt="North America"
+                      title="North America">
+                <area shape="rect" coords="350,80,500,200" 
+                      href="javascript:void(0)" 
+                      onclick="showInfo('europe')"
+                      alt="Europe"
+                      title="Europe">
+                <area shape="rect" coords="500,100,700,250" 
+                      href="javascript:void(0)" 
+                      onclick="showInfo('asia')"
+                      alt="Asia"
+                      title="Asia">
+            </map>
+        </div>
+        
+        <!-- Information Panels -->
+        <div id="northamerica-info" class="info-panel">
+            <h3>North America</h3>
+            <p><strong>Countries:</strong> United States, Canada, Mexico</p>
+            <p><strong>Population:</strong> Over 580 million people</p>
+            <p><strong>Languages:</strong> English, Spanish, French</p>
+            <p><strong>Interesting Fact:</strong> North America is the third largest continent by area and fourth by population.</p>
+        </div>
+        
+        <div id="europe-info" class="info-panel">
+            <h3>Europe</h3>
+            <p><strong>Countries:</strong> 44 countries including UK, France, Germany, Italy</p>
+            <p><strong>Population:</strong> Over 740 million people</p>
+            <p><strong>Languages:</strong> Over 200 languages spoken</p>
+            <p><strong>Interesting Fact:</strong> Europe is the second smallest continent but has the third largest population.</p>
+        </div>
+        
+        <div id="asia-info" class="info-panel">
+            <h3>Asia</h3>
+            <p><strong>Countries:</strong> 48 countries including China, India, Japan, South Korea</p>
+            <p><strong>Population:</strong> Over 4.6 billion people</p>
+            <p><strong>Languages:</strong> Over 2,300 languages</p>
+            <p><strong>Interesting Fact:</strong> Asia is the largest continent by both land area and population, covering about 30% of Earth's total land area.</p>
+        </div>
+    </div>
+</body>
+</html>

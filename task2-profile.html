@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile-info {
+            display: grid;
+            gap: 20px;
+        }
+        .info-item {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+        .info-item label {
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .info-item span {
+            color: #555;
+            font-size: 16px;
+        }
+        .logout-btn {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .logout-btn a {
+            background-color: #667eea;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+        .logout-btn a:hover {
+            background-color: #5568d3;
+        }
+    </style>
+    <script>
+        // Get username from URL parameters
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('username');
+            
+            if (username) {
+                document.getElementById('username-display').textContent = username;
+            } else {
+                // If no username in URL, redirect to login
+                window.location.href = 'task2-login.html';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Welcome to Your Profile</h1>
+        
+        <div class="profile-info">
+            <div class="info-item">
+                <label>Username:</label>
+                <span id="username-display">Loading...</span>
+            </div>
+            
+            <div class="info-item">
+                <label>Email:</label>
+                <span>user@example.com</span>
+            </div>
+            
+            <div class="info-item">
+                <label>Member Since:</label>
+                <span>January 2024</span>
+            </div>
+            
+            <div class="info-item">
+                <label>Status:</label>
+                <span>Active</span>
+            </div>
+        </div>
+        
+        <div class="logout-btn">
+            <a href="task2-login.html">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

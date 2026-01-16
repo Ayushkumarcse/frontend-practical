@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frameset Example</title>
+</head>
+<frameset rows="100,*,50" border="5" bordercolor="#667eea">
+    <frame src="task3-header.html" name="header" scrolling="no" noresize>
+    <frameset cols="200,*">
+        <frame src="task3-navigation.html" name="navigation" scrolling="auto" noresize>
+        <frame src="task3-content.html" name="content" scrolling="auto">
+    </frameset>
+    <frame src="task3-footer.html" name="footer" scrolling="no" noresize>
+</frameset>
+<noframes>
+    <body>
+        <p>Your browser does not support frames. Please upgrade your browser.</p>
+    </body>
+</noframes>
+</html>

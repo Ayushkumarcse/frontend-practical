@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styling Examples</title>
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="task6-external.css">
+    <!-- Internal Stylesheet -->
+    <style>
+        /* Internal CSS */
+        .internal-style {
+            background-color: #e3f2fd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        /* Element Selector */
+        h2 {
+            color: #1976d2;
+            border-bottom: 2px solid #1976d2;
+            padding-bottom: 10px;
+        }
+        
+        /* ID Selector */
+        #unique-element {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-left: 4px solid #ff9800;
+            margin: 20px 0;
+        }
+        
+        /* Class Selector */
+        .highlight {
+            background-color: #fff9c4;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        /* Box Model Demonstration */
+        .box-model {
+            width: 300px;
+            height: 200px;
+            margin: 30px;
+            padding: 20px;
+            border: 5px solid #4caf50;
+            background-color: #c8e6c9;
+            box-sizing: border-box;
+        }
+        
+        .box-content {
+            background-color: white;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Styling Examples: Inline, Internal, and External CSS</h1>
+        
+        <!-- Inline Style -->
+        <div style="background-color: #fce4ec; padding: 20px; margin: 20px 0; border-radius: 8px; border: 2px solid #e91e63;">
+            <h2 style="color: #e91e63; margin-top: 0;">Inline CSS Example</h2>
+            <p style="color: #880e4f; line-height: 1.8;">This paragraph uses inline CSS styling. Inline styles are applied directly to HTML elements using the style attribute.</p>
+        </div>
+        
+        <!-- Internal Style -->
+        <div class="internal-style">
+            <h2>Internal CSS Example</h2>
+            <p>This section uses internal CSS defined in the &lt;style&gt; tag within the &lt;head&gt; section of the document.</p>
+        </div>
+        
+        <!-- External Style -->
+        <div class="external-style">
+            <h2>External CSS Example</h2>
+            <p>This section uses external CSS loaded from a separate CSS file (task6-external.css).</p>
+        </div>
+        
+        <!-- Selectors Demonstration -->
+        <div>
+            <h2>CSS Selectors</h2>
+            
+            <p class="highlight">This paragraph uses a class selector (.highlight)</p>
+            
+            <div id="unique-element">
+                This div uses an ID selector (#unique-element)
+            </div>
+            
+            <p>This paragraph uses an element selector (p) - styled by internal CSS</p>
+        </div>
+        
+        <!-- Box Model Demonstration -->
+        <div>
+            <h2>CSS Box Model: Margin, Padding, Border, and Content</h2>
+            <div class="box-model">
+                <div class="box-content">
+                    Content Box
+                    <br>
+                    <small>Margin (30px) → Border (5px) → Padding (20px) → Content</small>
+                </div>
+            </div>
+            <p><strong>Explanation:</strong></p>
+            <ul>
+                <li><strong>Margin:</strong> 30px (space outside the border)</li>
+                <li><strong>Border:</strong> 5px solid green (border around padding)</li>
+                <li><strong>Padding:</strong> 20px (space inside border, around content)</li>
+                <li><strong>Content:</strong> The actual content area</li>
+            </ul>
+        </div>
+        
+        <!-- DHTML Validation Form -->
+        <div>
+            <h2>DHTML Form Validation</h2>
+            <form id="validationForm" onsubmit="return validateForm(event)">
+                <div class="form-group">
+                    <label for="name">Name (min 3 characters):</label>
+                    <input type="text" id="name" name="name" onblur="validateName()">
+                    <span id="nameError" class="error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" onblur="validateEmail()">
+                    <span id="emailError" class="error"></span>
+                </div>
+                
+                <div class="form-group">
+                    <label for="age">Age (18-100):</label>
+                    <input type="number" id="age" name="age" onblur="validateAge()">
+                    <span id="ageError" class="error"></span>
+                </div>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function validateName() {
+            const name = document.getElementById('name').value;
+            const error = document.getElementById('nameError');
+            
+            if (name.length < 3) {
+                error.textContent = 'Name must be at least 3 characters';
+                error.style.color = 'red';
+                return false;
+            } else {
+                error.textContent = '✓ Valid';
+                error.style.color = 'green';
+                return true;
+            }
+        }
+        
+        function validateEmail() {
+            const email = document.getElementById('email').value;
+            const error = document.getElementById('emailError');
+            const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!pattern.test(email)) {
+                error.textContent = 'Please enter a valid email';
+                error.style.color = 'red';
+                return false;
+            } else {
+                error.textContent = '✓ Valid';
+                error.style.color = 'green';
+                return true;
+            }
+        }
+        
+        function validateAge() {
+            const age = parseInt(document.getElementById('age').value);
+            const error = document.getElementById('ageError');
+            
+            if (isNaN(age) || age < 18 || age > 100) {
+                error.textContent = 'Age must be between 18 and 100';
+                error.style.color = 'red';
+                return false;
+            } else {
+                error.textContent = '✓ Valid';
+                error.style.color = 'green';
+                return true;
+            }
+        }
+        
+        function validateForm(event) {
+            event.preventDefault();
+            const nameValid = validateName();
+            const emailValid = validateEmail();
+            const ageValid = validateAge();
+            
+            if (nameValid && emailValid && ageValid) {
+                alert('Form is valid! Submission successful.');
+                return true;
+            } else {
+                alert('Please fix the errors before submitting.');
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

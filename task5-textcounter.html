@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Counter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 600px;
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            min-height: 200px;
+        }
+        button {
+            width: 100%;
+            background-color: #667eea;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #5568d3;
+        }
+    </style>
+    <script>
+        function countText() {
+            const text = document.getElementById('textInput').value;
+            
+            // Count characters (including spaces)
+            const characters = text.length;
+            
+            // Count lines (split by newline character)
+            const lines = text.split('\n').length;
+            
+            // Count words (split by whitespace and filter empty strings)
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            
+            // Display results in alert
+            alert(`Text Statistics:\n\nCharacters: ${characters}\nLines: ${lines}\nWords: ${words}`);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Counter</h1>
+        <form onsubmit="event.preventDefault(); countText();">
+            <div class="form-group">
+                <label for="textInput">Enter your text (multi-line):</label>
+                <textarea id="textInput" name="textInput" placeholder="Type or paste your text here..."></textarea>
+            </div>
+            
+            <button type="submit">Count Text</button>
+        </form>
+    </div>
+</body>
+</html>
